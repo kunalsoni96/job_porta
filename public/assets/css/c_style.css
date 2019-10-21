@@ -1,0 +1,63 @@
+#redsign .tabs-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  #redsign label {
+    cursor: pointer;
+    display: inline-block;
+    background:#E3EAEF;
+    color:#3E3E3E;
+    font-weight: bold;
+    padding: 10px 20px;
+    width: 20%;
+    border: 1px solid rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    height:50px;
+    text-align: center;
+    line-height: 30px;
+  }
+  
+  #tab-1, #tab-2, #tab-3, #tab-4, #tab-5 {
+    display: none;
+  }
+
+  #style_input{
+    background:white;
+    border-bottom:1px solid #e6e6e6;
+  }
+#lable{
+  margin-bottom: -5px;
+}
+  
+  input[id="tab-1"]:checked ~ .tabs-wrapper .label-tab-1,
+  input[id="tab-2"]:checked ~ .tabs-wrapper .label-tab-2,
+  input[id="tab-3"]:checked ~ .tabs-wrapper .label-tab-3 {
+    background: white;
+    color: black;
+  }
+  
+  #redsign .tab {
+    display: none;
+    width: 100%;
+    background: white;
+    color: black;
+    padding: 40px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: 5px 5px 13px -6px rgba(1,0,0.29,0.29);
+  }
+
+  #redsign p {
+    text-align: left;
+    padding: 0;
+  }
+  
+  #redsign input[id="tab-1"]:checked ~ .tab-1,
+  #redsign input[id="tab-2"]:checked ~ .tab-2,
+  #redsign input[id="tab-3"]:checked ~ .tab-3 {
+    display: block;
+  }
+  

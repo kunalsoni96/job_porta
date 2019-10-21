@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/job_prtal/assets/css/bootstrap-grid.css" />
+    <link rel="stylesheet" href="%PUBLIC_URL%/job_prtal/assets/css/icons.css">
+    <link rel="stylesheet" href="%PUBLIC_URL%/job_prtal/assets/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/job_prtal/assets/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/job_prtal/assets/css/responsive.css" />
+    <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/job_prtal/assets/css/chosen.css" />
+    <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/job_prtal/assets/css/colors/colors.css" />
+    <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/job_prtal/assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="%PUBLIC_URL%/job_prtal/assets/css/multistep.css">
+    <title>React App</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+   <script src="%PUBLIC_URL%/job_prtal/assets/js/jquery.min.js" type="text/javascript"></script>
+  <script src="%PUBLIC_URL%/job_prtal/assets/js/c_style.js"></script>
+  <script src="%PUBLIC_URL%/job_prtal/assets/js/modernizr.js" type="text/javascript" ></script>
+  <script src="%PUBLIC_URL%/job_prtal/assets/js/script.js" type="text/javascript"></script>
+  <script src="%PUBLIC_URL%/job_prtal/assets/js/bootstrap.min.js" type="text/javascript" async></script>
+  <script src="%PUBLIC_URL%/job_prtal/assets/js/wow.min.js" type="text/javascript" async></script>
+  <script src="%PUBLIC_URL%/job_prtal/assets/js/slick.min.js" type="text/javascript"></script>
+  <script src="%PUBLIC_URL%/job_prtal/assets/js/parallax.js" type="text/javascript"></script>
+  <script src="%PUBLIC_URL%/job_prtal/assets/js/select-chosen.js" type="text/javascript" async></script>
+  
+  <script>
+var current_fs, next_fs, previous_fs; //fieldsets
+var left, opacity, scale; //fieldset properties which we will animate
+var animating; //flag to prevent quick multi-click glitches
+
+$(".next").click(function(){
+  if(animating) return false;
+  animating = true;
+  
+  current_fs = $(this).parent();
+  next_fs = $(this).parent().next();
+  
+  //activate next step on progressbar using the index of next_fs
+  $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+  
+  //show the next fieldset
+  next_fs.show(); 
+  //hide the current fieldset with style
+  current_fs.animate({opacity: 0}, {
+    step: function(now, mx) {
+      //as the opacity of current_fs reduces to 0 - stored in "now"
+      //1. scale current_fs down to 80%
+      scale = 1 - (1 - now) * 0.2;
+      //2. bring next_fs from the right(50%)
+      left = (now * 50)+"%";
+      //3. increase opacity of next_fs to 1 as it moves in
+      opacity = 1 - now;
+      current_fs.css({
+        'transform': 'scale('+scale+')',
+        'position': 'absolute'
+      });
+      next_fs.css({'left': left, 'opacity': opacity});
+    }, 
+    duration: 800, 
+    complete: function(){
+      current_fs.hide();
+      animating = false;
+    }, 
+    //this comes from the custom easing plugin
+    easing: 'easeInOutBack'
+  });
+});
+
+$(".previous").click(function(){
+  if(animating) return false;
+  animating = true;
+  
+  current_fs = $(this).parent();
+  previous_fs = $(this).parent().prev();
+  
+  //de-activate current step on progressbar
+  $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+  
+  //show the previous fieldset
+  previous_fs.show(); 
+  //hide the current fieldset with style
+  current_fs.animate({opacity: 0}, {
+    step: function(now, mx) {
+      //as the opacity of current_fs reduces to 0 - stored in "now"
+      //1. scale previous_fs from 80% to 100%
+      scale = 0.8 + (1 - now) * 0.2;
+      //2. take current_fs to the right(50%) - from 0%
+      left = ((1-now) * 50)+"%";
+      //3. increase opacity of previous_fs to 1 as it moves in
+      opacity = 1 - now;
+      current_fs.css({'left': left});
+      previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity});
+    }, 
+    duration: 800, 
+    complete: function(){
+      current_fs.hide();
+      animating = false;
+    }, 
+    //this comes from the custom easing plugin
+    easing: 'easeInOutBack'
+  });
+});
+
+$(".submit").click(function(){
+  return false;
+})
+
+
+// add the animation to the popover
+$('a[rel=popover]').popover().click(function(e) {
+  e.preventDefault();
+  var open = $(this).attr('data-easein');
+  if (open == 'shake') {
+    $(this).next().velocity('callout.' + open);
+  } else if (open == 'pulse') {
+    $(this).next().velocity('callout.' + open);
+  } else if (open == 'tada') {
+    $(this).next().velocity('callout.' + open);
+  } else if (open == 'flash') {
+    $(this).next().velocity('callout.' + open);
+  } else if (open == 'bounce') {
+    $(this).next().velocity('callout.' + open);
+  } else if (open == 'swing') {
+    $(this).next().velocity('callout.' + open);
+  } else {
+    $(this).next().velocity('transition.' + open);
+  }
+
+});
+
+
+    </script>
+</html>
